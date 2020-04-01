@@ -5,8 +5,8 @@
   "main": "dist-ts/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "asbuild:untouched": "asc src/wasm/assembly/index.ts -b src/wasm/build/untouched.wasm -t src/wasm/build/untouched.wat --validate --sourceMap --debug",
-    "asbuild:optimized": "asc src/wasm/assembly/index.ts -b src/wasm/build/optimized.wasm -t src/wasm/build/optimized.wat --validate --sourceMap --optimize",
+    "asbuild:untouched": "asc src/wasm/assembly/index.ts -b src/wasm/build/untouched.wasm -t src/wasm/build/untouched.wat --validate --sourceMap --debug -d src/wasm/build/index.d.ts",
+    "asbuild:optimized": "asc src/wasm/assembly/index.ts -b src/wasm/build/optimized.wasm -t src/wasm/build/optimized.wat --validate --sourceMap --optimize -d src/wasm/build/index.d.ts",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "start": "ts-node src",
     "build": "tsc",
