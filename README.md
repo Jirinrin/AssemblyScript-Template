@@ -4,7 +4,7 @@
 - `npm i`
 - `npm run asbuild`
 - For browser demo:
-  - `npm serve`
+  - `npm run serve`
   - Go to http://localhost:1234
 - For NodeJS demo:
   - `npm start`
