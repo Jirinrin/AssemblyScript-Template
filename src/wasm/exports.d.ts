@@ -1,13 +1,12 @@
 import { Exports } from "assemblyscript-loader";
+import * as ASModule from "./assembly/index";
 
-interface WasmModuleFunctions {
-  add: (a: number, b: number) => number;
+type ASModuleType = typeof ASModule;
+
+type ASModuleBrowserType = {
+  [key in keyof ASModuleType]: ASModuleType[key] extends ((...args?: any) => any) ? typeof ASModule[key] : WebAssembly.Global;
 }
 
-type WasmModuleNumberKeys =
-| "ANSWER_TO_LIFE_UNIVERSE_AND_EVERYTHING"
-;
+export type WasmExportsBrowser = ASModuleBrowserType & WebAssembly.Exports;
 
-export type WasmExportsBrowser = WasmModuleFunctions & {[numKey in WasmModuleNumberKeys]: WebAssembly.Global} & WebAssembly.Exports;
-
-export type WasmExports = WasmModuleFunctions & {[numKey in WasmModuleNumberKeys]: number} & Exports;
+export type WasmExports = ASModuleType & Exports;

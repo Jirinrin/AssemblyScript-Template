@@ -9,7 +9,12 @@
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist-ts",
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true,
+    "types": [
+      "./node_modules/assemblyscript/std/portable",
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts"
