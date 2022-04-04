@@ -5,9 +5,9 @@
   "main": "dist-ts/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "asbuild:untouched": "asc src/wasm/assembly/index.ts -b src/wasm/build/untouched.wasm -t src/wasm/build/untouched.wat --validate --sourceMap --debug -d src/wasm/build/index.d.ts",
-    "asbuild:optimized": "asc src/wasm/assembly/index.ts -b src/wasm/build/optimized.wasm -t src/wasm/build/optimized.wat --validate --sourceMap --optimize -d src/wasm/build/index.d.ts",
-    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "asbuild:debug": "asc src/wasm/assembly/index.ts --target debug -d src/wasm/build/index.d.ts",
+    "asbuild:release": "asc src/wasm/assembly/index.ts --target release -d src/wasm/build/index.d.ts",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
     "start": "ts-node src",
     "build": "tsc",
     "serve": "parcel index.html",
@@ -25,17 +25,17 @@
   "homepage": "https://github.com/Jirinrin/AssemblyScript-HelloWorld#readme",
   "devDependencies": {
     "@types/node": "^13.9.0",
-    "assemblyscript": "^0.9.2",
+    "assemblyscript": "^0.19.23",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-static-files-copy": "^2.3.1",
-    "ts-node": "^8.6.2",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "ts-node": "^10.7.0",
     "tsc": "^1.20150623.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "assemblyscript-loader": "^0.3.0"
+    "@assemblyscript/loader": "^0.20.3"
   },
   "staticFiles": {
     "staticPath": [

@@ -1,10 +1,10 @@
-import { WasmExportsBrowser } from "./wasm/exports";
+import { ASModule } from "./wasm/exports";
 import { initWasmBrowser } from "./wasm/init-wasm";
 
 (async () => {
   // Instantiate our wasm module
-  const wasmModule = await initWasmBrowser("./wasm/optimized.wasm");
-  const moduleExports = wasmModule.instance.exports as WasmExportsBrowser;
+  const wasmModule = await initWasmBrowser<ASModule>("./wasm/release.wasm");
+  const moduleExports = wasmModule.instance.exports;
 
   // Call the Add function export from wasm, save the result
   const addResult = moduleExports.add(24, 24);

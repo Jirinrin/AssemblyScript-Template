@@ -1,16 +1,19 @@
-import { Module } from "assemblyscript-loader";
+import { Imports } from "@assemblyscript/loader";
 
-const defaultImportObject = { env: { abort: () => console.log("Abort!") } };
+type WASMModule<RawModule extends Record<string, unknown>> = {
+  [K in keyof RawModule]: RawModule[K] extends ((...args: any[]) => any) ? RawModule[K] : WebAssembly.Global;
+}
 
-export async function initWasm(wasmModulePath: string, importObject?: {[key: string]: any}): Promise<Module> {
-  const loader = require("assemblyscript-loader");
-  return loader.load(wasmModulePath, { imports: importObject ?? defaultImportObject });
+const defaultImportObject: WebAssembly.Imports & Imports = { env: { abort: () => console.log("Abort!") } };
+
+export async function initWasm<TModule extends Record<string, unknown>>(wasmModulePath: string, importObject: Imports = defaultImportObject) {
+  const [loader, fs] = await Promise.all([import("@assemblyscript/loader"), import("fs")]);
+  return loader.instantiate<WASMModule<TModule>>(fs.readFileSync(wasmModulePath), { imports: importObject });
 }
 
 // https://github.com/torch2424/wasm-by-example/blob/master/demo-util/
-export async function initWasmBrowser(wasmModuleUrl: string, importObject?: WebAssembly.Imports): Promise<WebAssembly.WebAssemblyInstantiatedSource> {
+export async function initWasmBrowser<TModule extends Record<string, unknown>>(wasmModuleUrl: string, importObject: WebAssembly.Imports = defaultImportObject) {
   let response: WebAssembly.WebAssemblyInstantiatedSource;
-  importObject = importObject ?? defaultImportObject;
 
   // Check if the browser supports streaming instantiation
   if (WebAssembly.instantiateStreaming) {
@@ -31,5 +34,5 @@ export async function initWasmBrowser(wasmModuleUrl: string, importObject?: WebA
     response = await fetchAndInstantiateTask();
   }
 
-  return response;
+  return response as WebAssembly.WebAssemblyInstantiatedSource & {instance: {exports: WASMModule<TModule>}};
 };

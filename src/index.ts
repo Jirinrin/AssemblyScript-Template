@@ -1,10 +1,9 @@
-import { WasmExports } from "./wasm/exports";
+import { ASModule } from "./wasm/exports";
 import { initWasm } from "./wasm/init-wasm";
 
 (async () => {
-  const wasmModule = await initWasm("./src/wasm/build/optimized.wasm");
-  const moduleExports = wasmModule.exports as WasmExports;
+  const wasmModule = await initWasm<ASModule>("./src/wasm/build/release.wasm");
 
-  console.log(`24 + 24 = ${moduleExports.add(24, 24)}`);
-  console.log(`And a magic number is ${moduleExports.ANSWER_TO_LIFE_UNIVERSE_AND_EVERYTHING}`);
+  console.log(`24 + 24 = ${wasmModule.exports.add(24, 24)}`);
+  console.log(`And a magic number is ${wasmModule.exports.ANSWER_TO_LIFE_UNIVERSE_AND_EVERYTHING.valueOf()}`);
 })();
